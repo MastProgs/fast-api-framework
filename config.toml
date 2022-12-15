@@ -1,6 +1,6 @@
 
 [ServerConfig]
-server_name = "DerbyServer"
+server_name = ""
 port = 9300
 code_generate_before_run = false
 
