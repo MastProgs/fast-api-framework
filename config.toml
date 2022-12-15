@@ -1,0 +1,30 @@
+
+[ServerConfig]
+server_name = "DerbyServer"
+port = 9300
+code_generate_before_run = false
+
+[LogConfig]
+print_console = true
+print_file = true
+print_stack = true
+trace_stack_size = 10
+log_level = "debug"
+
+[ContentsDBConfig]
+db_type = "mysql"
+host = "localhost"
+port = 3306
+name = ""
+id = ""
+pw = ""
+show_log = true
+
+[LogDBConfig]
+db_type = "mongodb"
+host = ""
+port = 3306
+name = ""
+id = ""
+pw = ""
+show_log = true
