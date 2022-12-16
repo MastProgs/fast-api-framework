@@ -22,8 +22,8 @@ show_log = true
 
 [LogDBConfig]
 db_type = "mongodb"
-host = ""
-port = 3306
+host = "localhost"
+port = 27017
 name = ""
 id = ""
 pw = ""

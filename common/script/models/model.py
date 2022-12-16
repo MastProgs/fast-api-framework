@@ -18,27 +18,6 @@ class DataScript(StructModel):
         return {}
 
                 
-class TestExcelData(DataScript):
-    
-    Id:int = 0
-    Name:list[str] = list()
-    Number:list[int] = list()
-    
-    def __init__(self, Id, Name, Number) -> None:
-        super().__init__()
-        
-        self.Id = Id
-        self.Name = Name
-        self.Number = Number
-                        
-    def GetKeyCol(self) -> str:
-        return "Id"
-    
-    def GetArrayCols(self) -> set[str]:
-        return {"Name", "Number"}
-
-
-                
 class TestSecondData(DataScript):
     
     Id:int = 0
@@ -61,18 +40,39 @@ class TestSecondData(DataScript):
         return {"Seconds", "Number"}
 
 
+                
+class TestExcelData(DataScript):
+    
+    Id:int = 0
+    Name:list[str] = list()
+    Number:list[int] = list()
+    
+    def __init__(self, Id, Name, Number) -> None:
+        super().__init__()
+        
+        self.Id = Id
+        self.Name = Name
+        self.Number = Number
+                        
+    def GetKeyCol(self) -> str:
+        return "Id"
+    
+    def GetArrayCols(self) -> set[str]:
+        return {"Name", "Number"}
+
+
 
 def GetDataList() -> list[DataScript]:
     return [
-        TestExcelData(1, ["Hi"], [15]),
-        TestExcelData(2, ["My"], [1]),
-        TestExcelData(3, ["lol"], [10]),
-        TestExcelData(3, ["lol2"], [250]),
-        TestExcelData(3, ["wow"], [13]),
         TestSecondData(1, ["Hi"], True, [15]),
         TestSecondData(2, ["My"], True, [1]),
         TestSecondData(3, ["lol"], True, [10]),
         TestSecondData(3, ["lol2"], True, [250]),
-        TestSecondData(3, ["wow"], True, [13])
+        TestSecondData(3, ["wow"], True, [13]),
+        TestExcelData(1, ["Hi"], [15]),
+        TestExcelData(2, ["My"], [1]),
+        TestExcelData(3, ["lol"], [10]),
+        TestExcelData(3, ["lol2"], [250]),
+        TestExcelData(3, ["wow"], [13])
         ]
             

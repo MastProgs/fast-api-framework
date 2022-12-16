@@ -7,8 +7,8 @@ class GTime(Handler):
     def UTC():
         return datetime.now()
     
-    def UTCStr():
-        return time.strftime('%Y-%m-%d %H:%M:%S')    
+    def UTCStr(format='%Y-%m-%d %H:%M:%S'):
+        return time.strftime(format)    
         
 
 class StopWatch(Handler):

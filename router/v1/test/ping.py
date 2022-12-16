@@ -48,7 +48,7 @@ from .protocol import Restbl_test
 from sqlalchemy.future import select
 from sqlalchemy import delete
 from sqlalchemy.ext.asyncio import AsyncSession
-from common.database.db import GetCDB
+from common.database.db import GetCDB, GetLDB
 from common.database.model_contents import tbl_test
 
 @router.get(path="/dbselect"
@@ -100,3 +100,15 @@ async def DB_select(db:AsyncSession = Depends(GetCDB)):
         msg = f'DB DELETE test failed.'
         LOG.e(msg)
         raise RuntimeError(msg)
+    
+    
+
+from common.database.model_log import log_test
+@router.get(path="/ldbinsert"
+            , summary="Test for Mongo DB INSERT api"
+            , description="When need to test Mongo DB INSERT api, then use this.")
+async def DB_select(db = Depends(GetLDB)):
+    
+    l = log_test(3, "log_test", 11, True)
+    LOG.d(l.__dict__)
+    db.log_test.insert_one(l.__dict__)
