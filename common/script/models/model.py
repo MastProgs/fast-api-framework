@@ -17,7 +17,7 @@ class DataScript(StructModel):
     def GetArrayCols(self) -> set[str]:
         return {}
 
-                
+
 class TestSecondData(DataScript):
     
     Id:int = 0
@@ -40,7 +40,7 @@ class TestSecondData(DataScript):
         return {"Seconds", "Number"}
 
 
-                
+
 class TestExcelData(DataScript):
     
     Id:int = 0

@@ -77,12 +77,12 @@ class ScriptLibrary(Handler):
         
     def ImportData(self) -> bool:
         
-        for data in GetDataList():
-            if False == self.ImportDataScript(data):
-                LOG.e(f"Init DataScript FAILED.")
-                return False
+        res = [data for data in GetDataList() if False == self.ImportDataScript(data)]
+        if len(res) > 0:
+            LOG.e(f"Import DataScript FAILED.")
+            return False
         
-        LOG.i(f"Init DataScript SUCCESS.")
+        LOG.i(f"Import DataScript SUCCESS.")
         return True
 
     def IsValid(self, typeName: str) -> bool:
@@ -101,7 +101,9 @@ class ScriptLibrary(Handler):
         
         return True
     
-    def ValidCheck(self) -> bool:        
+    def ValidCheck(self) -> bool:
+        res = [cTypeStr for cTypeStr in self.__xlsxSet if self.IsValid(cTypeStr) == False]
+        return len(res) < 1
         for cTypeStr in self.__xlsxSet:
             if False == self.IsValid(cTypeStr):
                 return False            

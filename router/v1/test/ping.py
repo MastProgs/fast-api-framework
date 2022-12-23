@@ -46,7 +46,7 @@ async def JsonPost(req: ReqTestJson):
 
 from .protocol import Restbl_test
 from sqlalchemy.future import select
-from sqlalchemy import delete
+from sqlalchemy import delete, or_
 from sqlalchemy.ext.asyncio import AsyncSession
 from common.database.db import GetCDB, GetLDB
 from common.database.model_contents import tbl_test
@@ -55,9 +55,10 @@ from common.database.model_contents import tbl_test
             , response_model=Restbl_test
             , summary="Test for DB SELECT api"
             , description="When need to test DB SELECT api, then use this.")
-async def DB_select(db:AsyncSession = Depends(GetCDB)):
+async def DB_Select(db:AsyncSession = Depends(GetCDB)):
         
     query = select(tbl_test).where(tbl_test.Nickname == 'abc', tbl_test.IsTest == True).order_by(tbl_test.Uid.desc()).limit(2)
+    query = select(tbl_test).where(or_(tbl_test.Uid == 10, tbl_test.Uid == 11, tbl_test.Uid == 12)).order_by(tbl_test.Uid.desc()).limit(2)
     res = await db.execute(query)
     rowList = res.scalars().fetchall()
     for row in rowList:
@@ -70,7 +71,7 @@ async def DB_select(db:AsyncSession = Depends(GetCDB)):
 @router.get(path="/dbinsert"
             , summary="Test for DB INSERT api"
             , description="When need to test DB INSERT api, then use this.")
-async def DB_select(db:AsyncSession = Depends(GetCDB)):
+async def DB_Insert(db:AsyncSession = Depends(GetCDB)):
     
     db.add_all([
         tbl_test(Uid=10, Nickname='abc', Age=20, IsTest=True)
@@ -89,7 +90,7 @@ async def DB_select(db:AsyncSession = Depends(GetCDB)):
 @router.get(path="/dbdelete"
             , summary="Test for DB DELETE api"
             , description="When need to test DB DELETE api, then use this.")
-async def DB_select(db:AsyncSession = Depends(GetCDB)):
+async def DB_Delete(db:AsyncSession = Depends(GetCDB)):
     
     query = delete(tbl_test)
     await db.execute(query)
@@ -107,7 +108,7 @@ from common.database.model_log import log_test
 @router.get(path="/ldbinsert"
             , summary="Test for Mongo DB INSERT api"
             , description="When need to test Mongo DB INSERT api, then use this.")
-async def DB_select(db = Depends(GetLDB)):
+async def DB_LogInsert(db = Depends(GetLDB)):
     
     l = log_test(3, "log_test", 11, True)
     LOG.d(l.__dict__)

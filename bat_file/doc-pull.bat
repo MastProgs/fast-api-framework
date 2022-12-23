@@ -1,4 +1,4 @@
-REM @echo off
+@echo off
 
 git submodule update --remote --merge
 
