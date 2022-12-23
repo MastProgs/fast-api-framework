@@ -21,3 +21,9 @@ rem Separate parts at comma into individual assignments
 set "%string:, =" & set "%"
 
 taskkill /f /pid %pid%
+
+call doc-pull.bat
+cd ..
+call run-auto-code-gen.bat
+cd ..
+call run-web-server.bat
