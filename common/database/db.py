@@ -1,5 +1,5 @@
 from asyncio import current_task
-from common.database.model_contents import CONTENTS_BASE
+from common.database.model.contents import CONTENTS_BASE
 
 from common.config.config import CONFIG
 from common.config.model import ContentsDBConfig, LogDBConfig
@@ -33,7 +33,7 @@ __CDB_ASYNC_SESSION = async_scoped_session(sessionmaker(__CDB_ENGINE, class_=Asy
 
 
 __ldbInfo:LogDBConfig = CONFIG.GetConfig(LogDBConfig)
-__LOG_DB = MongoClient(host=__ldbInfo.host, port=__ldbInfo.port)
+__MONGO_DB = MongoClient(host=__ldbInfo.host, port=__ldbInfo.port)
 
 
 async def __InitModel():
@@ -46,5 +46,5 @@ async def GetCDB() -> AsyncSession:
     async with __CDB_ASYNC_SESSION() as s:
         yield s
 
-async def GetLDB():
-    return __LOG_DB[__ldbInfo.name]
+async def GetMDB():
+    return __MONGO_DB[__ldbInfo.name]

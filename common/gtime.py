@@ -5,7 +5,7 @@ from common.gmodel import Handler
 
 class GTime(Handler):
     def UTC():
-        return datetime.now()
+        return datetime.utcnow()
     
     def UTCStr(format='%Y-%m-%d %H:%M:%S'):
         return time.strftime(format)    

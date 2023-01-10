@@ -28,3 +28,7 @@ name = ""
 id = ""
 pw = ""
 show_log = true
+
+[JwtToken]
+access_key = "derby_access"
+refresh_key = "derby_refresh"

@@ -15,6 +15,7 @@ class LogConfig(ConfigModel):
     print_console: bool = True
     print_file: bool = True
     print_stack: bool = True
+    print_color: bool = True
     trace_stack_size: int = 10
     log_level: str = "debug"
     
@@ -35,3 +36,7 @@ class LogDBConfig(ConfigModel):
     id: str = ""
     pw: str = ""
     show_log: bool = False
+    
+class JwtToken(ConfigModel):
+    access_key: str = ""
+    refresh_key: str = ""

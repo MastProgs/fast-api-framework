@@ -7,6 +7,9 @@ import traceback
 from common.gmodel import Handler
 from common.gtime import GTime
 
+from common.config.config import CONFIG
+from common.config.model import LogConfig
+
 class StackTracer(Handler):
     
     stackInfo: list[str] = list()  # (file name, line number, called function)
@@ -48,7 +51,8 @@ class Log(Handler):
     
     __bFile : bool = True
     __bConsole : bool = True
-    __bDB : bool = True
+    __bColor : bool = True
+    __bDB : bool = False
     __bStackTrace : bool = True
     
     def __init__(self, serverName:str = None, logLevel:str = None) -> None:
@@ -61,6 +65,11 @@ class Log(Handler):
             logLevel = logLevel.upper()
             if logging._nameToLevel[logLevel] != None:                
                 self.__logLevel = logging._nameToLevel[logLevel]
+                
+        logConfig:LogConfig = CONFIG.GetConfig(LogConfig)
+        self.__bFile = logConfig.print_file
+        self.__bConsole = logConfig.print_console
+        self.__bColor = logConfig.print_color
         
         self.logger = logging.getLogger(__name__)
         self.logger.setLevel(self.__logLevel)
@@ -89,7 +98,10 @@ class Log(Handler):
             self.logger.debug(f'[{GTime.UTCStr()}] DEBUG - {str(msg)}')
             
         if self.__bConsole:
-            print(f'\033[96mDEBUG\033[0m - [\033[32m{GTime.UTCStr()}\033[0m] \033[93m{str(msg)}\033[0m')
+            if self.__bColor:
+                print(f'\033[96mDEBUG\033[0m - [\033[32m{GTime.UTCStr()}\033[0m] \033[93m{str(msg)}\033[0m')
+            else:
+                print(f'DEBUG - {GTime.UTCStr()} {str(msg)}')
         
     def i(self, *args, **kwargs) -> None:
         msg = [str(i) for i in list(args)]
@@ -100,7 +112,10 @@ class Log(Handler):
             self.logger.info(f'[{GTime.UTCStr()}] INFO - {str(msg)}')
             
         if self.__bConsole:
-            print(f'\033[96mINFO\033[0m - [\033[32m{GTime.UTCStr()}\033[0m] \033[93m{str(msg)}\033[0m')
+            if self.__bColor:
+                print(f'\033[96mINFO\033[0m - [\033[32m{GTime.UTCStr()}\033[0m] \033[93m{str(msg)}\033[0m')
+            else:
+                print(f'INFO - {GTime.UTCStr()} {str(msg)}')
     
     def w(self, *args, **kwargs) -> None:
         msg = [str(i) for i in list(args)]
@@ -111,7 +126,10 @@ class Log(Handler):
             self.logger.warning(f'[{GTime.UTCStr()}] ERROR - {str(msg)}')
                     
         if self.__bConsole:
-            print(f'\033[95mWARNING\033[0m - [\033[32m{GTime.UTCStr()}\033[0m] \033[93m{str(msg)}\033[0m')
+            if self.__bColor:
+                print(f'\033[95mWARNING\033[0m - [\033[32m{GTime.UTCStr()}\033[0m] \033[93m{str(msg)}\033[0m')
+            else:
+                print(f'WARNING - {GTime.UTCStr()} {str(msg)}')
         
     def e(self, *args, **kwargs) -> None:
         msg = [str(i) for i in list(args)]
@@ -129,7 +147,11 @@ class Log(Handler):
         if self.__bConsole:
             if self.__bStackTrace:
                 stackTracer.Print(print)
-            print(f'\033[31mERROR\033[0m - [\033[32m{GTime.UTCStr()}\033[0m] \033[93m{str(msg)}\033[0m')            
+            
+            if self.__bColor:
+                print(f'\033[31mERROR\033[0m - [\033[32m{GTime.UTCStr()}\033[0m] \033[93m{str(msg)}\033[0m')            
+            else:
+                print(f'ERROR - {GTime.UTCStr()} {str(msg)}')
         
     def c(self, *args, **kwargs) -> None:        
         msg = [str(i) for i in list(args)]
@@ -147,7 +169,11 @@ class Log(Handler):
         if self.__bConsole:
             if self.__bStackTrace:
                 stackTracer.Print(print)
-            print(f'\033[31mCRITICAL ERROR\033[0m - [\033[32m{GTime.UTCStr()}\033[0m] \033[93m{str(msg)}\033[0m')            
+            
+            if self.__bColor:
+                print(f'\033[31mCRITICAL ERROR\033[0m - [\033[32m{GTime.UTCStr()}\033[0m] \033[93m{str(msg)}\033[0m')  
+            else:
+                print(f'CRITICAL ERROR - {GTime.UTCStr()} {str(msg)}')          
     
     pass
 

@@ -34,25 +34,25 @@ async def PingGet(authorization: str = Header(default=None)
     return "success"
 
 
-from .protocol import ReqTestJson, ResTestJson
+from .protocol import Req_TestJson, Res_TestJson
 @router.post(path="/json"
-             , response_model=ResTestJson
+             , response_model=Res_TestJson
              , summary="Test for POST json"
              , description="When need to test json response, then use this post api. response same request data")
-async def JsonPost(req: ReqTestJson):
+async def JsonPost(req: Req_TestJson):
     LOG.d(req)
     return req
 
 
-from .protocol import Restbl_test
+from .protocol import Res_tbl_test
 from sqlalchemy.future import select
 from sqlalchemy import delete, or_
 from sqlalchemy.ext.asyncio import AsyncSession
-from common.database.db import GetCDB, GetLDB
-from common.database.model_contents import tbl_test
+from common.database.db import GetCDB, GetMDB
+from common.database.model.contents import tbl_test
 
 @router.get(path="/dbselect"
-            , response_model=Restbl_test
+            , response_model=Res_tbl_test
             , summary="Test for DB SELECT api"
             , description="When need to test DB SELECT api, then use this.")
 async def DB_Select(db:AsyncSession = Depends(GetCDB)):
@@ -104,12 +104,12 @@ async def DB_Delete(db:AsyncSession = Depends(GetCDB)):
     
     
 
-from common.database.model_log import log_test
+from common.database.model.log import log_test
 @router.get(path="/ldbinsert"
             , summary="Test for Mongo DB INSERT api"
             , description="When need to test Mongo DB INSERT api, then use this.")
-async def DB_LogInsert(db = Depends(GetLDB)):
+async def DB_LogInsert(LOG_DB = Depends(GetMDB)):
     
     l = log_test(3, "log_test", 11, True)
     LOG.d(l.__dict__)
-    db.log_test.insert_one(l.__dict__)
+    LOG_DB.log_test.insert_one(l.__dict__)

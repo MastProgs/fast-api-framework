@@ -104,10 +104,6 @@ class ScriptLibrary(Handler):
     def ValidCheck(self) -> bool:
         res = [cTypeStr for cTypeStr in self.__xlsxSet if self.IsValid(cTypeStr) == False]
         return len(res) < 1
-        for cTypeStr in self.__xlsxSet:
-            if False == self.IsValid(cTypeStr):
-                return False            
-        return True
 
 DATA_LIB = ScriptLibrary(path="./xlsx", fileExtention=".xlsx", codeGeneratePath="./common/script/models")
 

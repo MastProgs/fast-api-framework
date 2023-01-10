@@ -55,4 +55,4 @@ class Config(Handler):
         return config
 
 CONFIG = Config(fname="config.toml")
-CONFIG.ImportForm(ServerConfig, LogConfig, ContentsDBConfig, LogDBConfig)
+CONFIG.ImportForm(ServerConfig, LogConfig, ContentsDBConfig, LogDBConfig, JwtToken)

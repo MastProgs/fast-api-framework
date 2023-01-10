@@ -23,7 +23,6 @@ set "%string:, =" & set "%"
 taskkill /f /pid %pid%
 
 cd ..
-call server-pull.bat
 call doc-pull.bat
 
 call run-auto-code-gen.bat

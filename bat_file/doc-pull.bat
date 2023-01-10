@@ -1,7 +1,6 @@
-@echo off
+REM @echo off
 
 git submodule update --remote --merge
 
-xcopy ".\(폴더명)\data\*" ".\(폴더명)\xlsx\" /e /h /k 
+xcopy ".\DerbyTornado-Doc\data\*" ".\DerbyWebServer\xlsx\" /e /h /k /y
 
-pause

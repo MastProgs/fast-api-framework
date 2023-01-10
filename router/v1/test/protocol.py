@@ -1,19 +1,18 @@
 from common.gmodel import WebPacketProtocol
-from pydantic import BaseModel
 
 class PingProtocol(WebPacketProtocol):
     pass
 
-class ReqTestJson(BaseModel, PingProtocol):
+class Req_TestJson(PingProtocol):
     msg: str
     desc: str | None = None
     num: int
     
-class ResTestJson(BaseModel, PingProtocol):
+class Res_TestJson(PingProtocol):
     msg: str
     num: int
 
-class Restbl_test(BaseModel, PingProtocol):
+class Res_tbl_test(PingProtocol):
     
     Uid:int
     Nickname:str
