@@ -16,7 +16,7 @@ log_level = "debug"
 db_type = "mysql"
 host = "localhost"
 port = 3306
-name = "derby_web"
+name = "dbname"
 id = ""
 pw = ""
 show_log = false
@@ -25,13 +25,13 @@ show_log = false
 db_type = "mongodb"
 host = "localhost"
 port = 27017
-name = "derby"
+name = "dbname"
 id = ""
 pw = ""
 show_log = true
 
 [JwtToken]
-access_key = "derby_access"
-refresh_key = "derby_refresh"
+access_key = "temp_access"
+refresh_key = "temp_refresh"
 access_expire_min = 30
 refresh_expire_day = 7
