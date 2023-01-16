@@ -40,11 +40,10 @@ async def Login(req: Req_Login, db:AsyncSession = Depends(GetCDB), mdb = Depends
         break
     
     ret.access_token = CreateAccessToken(UserInfo(uid=ret.uid, id=req.id, nickname=data.nickname))
-    ret.refresh_token = CreateRefreshToken(UserInfo(id=req.id, nickname=data.nickname))
+    ret.refresh_token = CreateRefreshToken(UserInfo(uid=ret.uid, id=req.id, nickname=data.nickname))
     
-    ui, exp = DecodeAccessToken(ret.access_token)
+    ui = DecodeAccessToken(ret.access_token)
     LOG.d(ui.__dict__)
-    LOG.d(exp)
     
     return ret
 

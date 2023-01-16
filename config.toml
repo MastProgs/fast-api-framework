@@ -21,6 +21,13 @@ id = ""
 pw = ""
 show_log = false
 
+[RedisConfig]
+db_type = "redis"
+host = "localhost"
+port = 6379
+pw = ""
+show_log = true
+
 [LogDBConfig]
 db_type = "mongodb"
 host = "localhost"

@@ -28,13 +28,11 @@ class Handler:
 class UserInfo(StructModel):
     uid: int
     id: str
-    pw: str
     nickname: str
     
-    def __init__(self, uid=None, id=None, pw=None, nickname=None) -> None:
+    def __init__(self, uid=None, id=None, nickname=None) -> None:
         super().__init__()
         self.uid = uid
         self.id = id
-        self.pw = pw
         self.nickname = nickname
         

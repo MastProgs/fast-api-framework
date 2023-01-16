@@ -1,8 +1,10 @@
 from asyncio import current_task
+
+from redis import Redis
 from common.database.model.contents import CONTENTS_BASE
 
 from common.config.config import CONFIG
-from common.config.model import ContentsDBConfig, LogDBConfig
+from common.config.model import ContentsDBConfig, MongoDBConfig, RedisConfig
 from enum import Enum, auto
 
 from common.gmodel import Handler
@@ -11,6 +13,7 @@ from common.logger import LOG
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, create_async_engine, async_scoped_session
 from sqlalchemy.orm import sessionmaker
 from pymongo import MongoClient
+from redis_om import get_redis_connection
 
 __DB_URL_MAP = {
     "mysql":"mysql+asyncmy"
@@ -32,8 +35,16 @@ __CDB_ENGINE = create_async_engine(__CDB_URL, echo=__cdbInfo.show_log)
 __CDB_ASYNC_SESSION = async_scoped_session(sessionmaker(__CDB_ENGINE, class_=AsyncSession, expire_on_commit=False, autocommit=False), scopefunc=current_task)
 
 
-__ldbInfo:LogDBConfig = CONFIG.GetConfig(LogDBConfig)
-__MONGO_DB = MongoClient(host=__ldbInfo.host, port=__ldbInfo.port)
+__redisInfo: RedisConfig = CONFIG.GetConfig(RedisConfig)
+__REDIS = get_redis_connection(
+    host=__redisInfo.host,
+    port=__redisInfo.port,
+    decode_responses=True
+)
+
+
+__mdbInfo:MongoDBConfig = CONFIG.GetConfig(MongoDBConfig)
+__MONGO_DB = MongoClient(host=__mdbInfo.host, port=__mdbInfo.port)
 
 
 async def __InitModel():
@@ -47,4 +58,7 @@ async def GetCDB() -> AsyncSession:
         yield s
 
 async def GetMDB():
-    return __MONGO_DB[__ldbInfo.name]
+    return __MONGO_DB[__mdbInfo.name]
+
+async def GetRedis() -> Redis:
+    return __REDIS

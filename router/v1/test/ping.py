@@ -1,4 +1,5 @@
 
+import json
 from fastapi import APIRouter, Header, HTTPException, Depends, Response
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
@@ -48,7 +49,7 @@ from .protocol import Res_tbl_test
 from sqlalchemy.future import select
 from sqlalchemy import delete, or_
 from sqlalchemy.ext.asyncio import AsyncSession
-from common.database.db import GetCDB, GetMDB
+from common.database.db import GetCDB, GetMDB, GetRedis
 from common.database.model.contents import tbl_test
 
 @router.get(path="/dbselect"
@@ -113,3 +114,21 @@ async def DB_LogInsert(LOG_DB = Depends(GetMDB)):
     l = log_test(3, "log_test", 11, True)
     LOG.d(l.__dict__)
     LOG_DB.log_test.insert_one(l.__dict__)
+    
+    
+
+from redis import Redis
+@router.post(path="/redis-get-sentinel"
+            , summary="Test for Sentinel Redis Get api"
+            , description="When need to test redis get, use this this.")
+async def PingPost(REDIS: Redis = Depends(GetRedis)):
+    
+    # Sentinel
+    REDIS.select(4)
+    state = REDIS.zrange('RANK_TOURNAMENT:2022-10-15:09.00.00:60', 0, -1, withscores=True) #.get('RANK_TOURNAMENT:2022-10-15:09.00.00:60')
+    if state is not None:
+        for key, val in state:
+            print(f'{key}, {val}')    
+    REDIS.select(0)
+    
+    
