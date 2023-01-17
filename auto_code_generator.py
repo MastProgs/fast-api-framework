@@ -72,12 +72,16 @@ class DataScript(StructModel):
 '''
         fileCodeList.append(frontCode)
         
+        DATA_START_ROW = 4
+        
         for xlsxName in xlsxList:
             ffullname = path + '/' + xlsxName + fExtention
             df_raw = pandas.read_excel(ffullname).fillna(method='ffill')
             df_raw = df_raw.loc[:, ~df_raw.columns.str.contains('^Unnamed')]
             df_raw = df_raw.loc[:, ~df_raw.columns.str.contains('^client', case=False)]
-            df_option = df_raw.iloc[:3]
+            df_raw = df_raw.loc[:, ~df_raw.columns.str.contains('^design', case=False)]
+            df_option = df_raw.iloc[:DATA_START_ROW]
+            print(df_option)
             
             isNotKeyList = IsNaN(df_option.iloc[0].values)
             if 0 < len([b for b in isNotKeyList if b == False]):        
@@ -88,7 +92,7 @@ class DataScript(StructModel):
                     keyIdx += 1
                     
                 typeList:list[str] = df_option.iloc[1].values
-                memberNameList:list[str] = df_option.iloc[2].values
+                memberNameList:list[str] = df_option.iloc[DATA_START_ROW - 1].values
                 
                 defineMemberCodeList:list[str] = list()
                 for mType, mName in zip(typeList, memberNameList):
@@ -109,7 +113,7 @@ class DataScript(StructModel):
                 
                 # Make Class Define First
                 classDefine = f'''
-                
+
 class {xlsxName}(DataScript):
     {"".join(defineMemberCodeList)}
     
@@ -127,8 +131,8 @@ class {xlsxName}(DataScript):
                 fileCodeList.append(classDefine)
                 
                 # Import Dataz
-                df_data = pandas.DataFrame(df_raw.iloc[3:]).reset_index(drop=True)
-                df_data.columns = df_option.iloc[2].values
+                df_data = pandas.DataFrame(df_raw.iloc[DATA_START_ROW:]).reset_index(drop=True)
+                df_data.columns = df_option.iloc[DATA_START_ROW - 1].values
                 
                 for rowIdx, rowDataList in df_data.iterrows():
                     
