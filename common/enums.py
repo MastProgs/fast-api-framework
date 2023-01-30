@@ -14,3 +14,4 @@ class ErrorType(Enum):
     
 from fastapi import HTTPException
 EXCEPTION_TOKEN_EXPIRED = HTTPException(status_code=403, detail='token has been expired')
+EXCEPTION_INVALID_CLIENT_ACCESS = HTTPException(status_code=400, detail='Invalid Server Access')

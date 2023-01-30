@@ -1,8 +1,9 @@
 
 [ServerConfig]
 server_name = "FastAPIServer"
-port = 9300
+port = 9000
 code_generate_before_run = false
+is_chat = false
 
 [LogConfig]
 print_console = true
@@ -16,29 +17,29 @@ log_level = "debug"
 db_type = "mysql"
 host = "localhost"
 port = 3306
-name = "dbname"
-id = ""
-pw = ""
+name = "db_name"
+id = "admin_id"
+pw = "pw"
 show_log = false
 
 [RedisConfig]
 db_type = "redis"
-host = "localhost"
+host = ""
 port = 6379
 pw = ""
 show_log = true
 
-[LogDBConfig]
+[MongoDBConfig]
 db_type = "mongodb"
 host = "localhost"
 port = 27017
-name = "dbname"
+name = ""
 id = ""
 pw = ""
 show_log = true
 
 [JwtToken]
-access_key = "temp_access"
-refresh_key = "temp_refresh"
+access_key = "access_key"
+refresh_key = "refresh_key"
 access_expire_min = 30
 refresh_expire_day = 7

@@ -1,5 +1,5 @@
 from fastapi import Header, HTTPException
-
+from common.enums import EXCEPTION_INVALID_CLIENT_ACCESS, EXCEPTION_TOKEN_EXPIRED
 
 
 async def ValidCheckAuthorization(authorization: str = Header(...)):
@@ -13,6 +13,19 @@ async def ValidCheckAuthorization(authorization: str = Header(...)):
 async def ValidCheckBarneyToken(token: str):
     if not "barney" in token:
         raise HTTPException(status_code=400, detail="No Barney token provided")
+    
+
+from common.config.config import CONFIG
+from common.config.model import ServerConfig
+async def IsChatServer():    
+    sc:ServerConfig = CONFIG.GetConfig(ServerConfig)    
+    if False == sc.is_chat:
+        raise EXCEPTION_INVALID_CLIENT_ACCESS
+
+async def IsWebServer():    
+    sc:ServerConfig = CONFIG.GetConfig(ServerConfig)    
+    if True == sc.is_chat:
+        raise EXCEPTION_INVALID_CLIENT_ACCESS
     
     
 from passlib.context import CryptContext
@@ -32,7 +45,6 @@ from jose import jwt
 from common.gmodel import UserInfo
 
 
-from common.config.config import CONFIG
 from common.config.model import JwtToken
 __jwtConfig:JwtToken = CONFIG.GetConfig(JwtToken)
 
@@ -63,23 +75,23 @@ def CreateRefreshToken(subject: UserInfo, expiresDelta: str = None) -> str:
     return __CreateToken(json.dumps(subject.__dict__), JWT_REFRESH_SECRET_KEY, JWT_ALGORITHM, REFRESH_TOKEN_EXPIRE_MIN, expiresDelta)
 
 
-def __DecodeToken(jwtToken: str, secretKey: str, algo: str):
-    decoded = jwt.decode(jwtToken, secretKey, algo) 
-    return decoded.get('sub'), datetime.utcnow() < datetime.strptime(str(decoded.get('exp')), "%Y%m%d%H%M%S")
+def __DecodeToken(jwtToken: str, secretKey: str, algo: str) -> tuple[str, bool, str]:
+    decoded = jwt.decode(jwtToken, secretKey, algo)
+    expireDt = str(decoded.get('exp'))
+    return decoded.get('sub'), datetime.utcnow() < datetime.strptime(expireDt, "%Y%m%d%H%M%S"), expireDt
 
-from common.enums import EXCEPTION_TOKEN_EXPIRED
-def DecodeAccessToken(jwtToken: str) -> UserInfo:
-    strSub, isNotExpired = __DecodeToken(jwtToken, JWT_SECRET_KEY, JWT_ALGORITHM)
+def DecodeAccessToken(jwtToken: str) -> tuple[UserInfo, str]:
+    strSub, isNotExpired, expireDt = __DecodeToken(jwtToken, JWT_SECRET_KEY, JWT_ALGORITHM)
     if False == isNotExpired:
         raise EXCEPTION_TOKEN_EXPIRED
     
     j = json.loads(strSub)
-    return UserInfo(**j)
+    return UserInfo(**j), expireDt
 
-def DecodeRefreshToken(jwtToken: str) -> UserInfo:
-    strSub, isNotExpired = __DecodeToken(jwtToken, JWT_REFRESH_SECRET_KEY, JWT_ALGORITHM)
+def DecodeRefreshToken(jwtToken: str) -> tuple[UserInfo, str]:
+    strSub, isNotExpired, expireDt = __DecodeToken(jwtToken, JWT_REFRESH_SECRET_KEY, JWT_ALGORITHM)
     if False == isNotExpired:
         raise EXCEPTION_TOKEN_EXPIRED
     
     j = json.loads(strSub)
-    return UserInfo(**j)
+    return UserInfo(**j), expireDt

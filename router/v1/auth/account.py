@@ -7,7 +7,7 @@ from common.database.db import GetCDB, GetMDB
 from sqlalchemy.future import select
 from sqlalchemy import delete, or_
 from common.gmodel import UserInfo
-from router.v1.validator.dependencies import DecodeAccessToken, ValidCheckAuthorization, CreateAccessToken, CreateRefreshToken
+from router.v1.validator.dependencies import DecodeAccessToken, DecodeRefreshToken, IsChatServer, IsWebServer, ValidCheckAuthorization, CreateAccessToken, CreateRefreshToken
 from common.logger import LOG
 from common.enums import ErrorType
 
@@ -17,9 +17,10 @@ router = APIRouter(prefix="/v1/auth"
                    , tags=["Auth"]
                    , responses = { 404: {"description": "Not found"}})
 
-from .protocol import Req_Login, Res_Login
+from .protocol import Req_Login, Req_RefreshToken, Res_Login, Res_RefreshToken
 from common.database.model.contents import tbl_account
 @router.post(path="/login"
+            , dependencies=[Depends(IsWebServer)]
             , response_model=Res_Login
             , summary="Request login access"
             , description="Do login process")
@@ -42,7 +43,7 @@ async def Login(req: Req_Login, db:AsyncSession = Depends(GetCDB), mdb = Depends
     ret.access_token = CreateAccessToken(UserInfo(uid=ret.uid, id=req.id, nickname=data.nickname))
     ret.refresh_token = CreateRefreshToken(UserInfo(uid=ret.uid, id=req.id, nickname=data.nickname))
     
-    ui = DecodeAccessToken(ret.access_token)
+    ui, expDt = DecodeAccessToken(ret.access_token)
     LOG.d(ui.__dict__)
     
     return ret
@@ -50,6 +51,7 @@ async def Login(req: Req_Login, db:AsyncSession = Depends(GetCDB), mdb = Depends
 
 from .protocol import Req_CreateId, Res_CreateId
 @router.post(path="/create"
+            , dependencies=[Depends(IsWebServer)]
             , response_model=Res_CreateId
             , summary="Request create ID"
             , description="Make new id")
@@ -75,4 +77,16 @@ async def CreateId(req: Req_CreateId, db:AsyncSession = Depends(GetCDB), mdb = D
         ret.result.SetResult(ErrorType.DB_RUN_FAILED)
         return ret   
     
+    return ret
+
+
+@router.post(path="/refresh_token"
+            , dependencies=[Depends(IsWebServer)]
+            , response_model=Res_RefreshToken
+            , summary="refresh login access token"
+            , description="when access token was despired. refresh access token use with refresh token.")
+async def Login(req: Req_RefreshToken):
+    
+    rft, expDt = DecodeRefreshToken(req.refresh_token)
+    ret = Res_RefreshToken(access_token=CreateAccessToken(rft))
     return ret

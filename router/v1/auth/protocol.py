@@ -22,3 +22,10 @@ class Req_CreateId(AuthProtocol):
     
 class Res_CreateId(AuthProtocol):
     pass
+
+
+class Req_RefreshToken(AuthProtocol):
+    refresh_token: str
+    
+class Res_RefreshToken(AuthProtocol):
+    access_token: str

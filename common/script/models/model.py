@@ -18,6 +18,60 @@ class DataScript(StructModel):
         return {}
 
 
+class StaticData(DataScript):
+    
+    Id:int = 0
+    CreateChatFee:int = 0
+    CreateChatConditon:int = 0
+    ChatUserLimit:int = 0
+    ChatChannelCount:int = 0
+    EnterChatCommission:float = 0.0
+    RoundMaxRoom:int = 0
+    NomineeMaxCount:int = 0
+    ChallengeMaxCount:int = 0
+    DarkhorseMaxCount:int = 0
+    
+    def __init__(self, Id, CreateChatFee, CreateChatConditon, ChatUserLimit, ChatChannelCount, EnterChatCommission, RoundMaxRoom, NomineeMaxCount, ChallengeMaxCount, DarkhorseMaxCount) -> None:
+        super().__init__()
+        
+        self.Id = Id
+        self.CreateChatFee = CreateChatFee
+        self.CreateChatConditon = CreateChatConditon
+        self.ChatUserLimit = ChatUserLimit
+        self.ChatChannelCount = ChatChannelCount
+        self.EnterChatCommission = EnterChatCommission
+        self.RoundMaxRoom = RoundMaxRoom
+        self.NomineeMaxCount = NomineeMaxCount
+        self.ChallengeMaxCount = ChallengeMaxCount
+        self.DarkhorseMaxCount = DarkhorseMaxCount
+                        
+    def GetKeyCol(self) -> str:
+        return "Id"
+    
+    def GetArrayCols(self) -> set[str]:
+        return {}
+
+
+
+class BiorhythmData(DataScript):
+    
+    ID:int = 0
+    StatGrade:float = 0.0
+    
+    def __init__(self, ID, StatGrade) -> None:
+        super().__init__()
+        
+        self.ID = ID
+        self.StatGrade = StatGrade
+                        
+    def GetKeyCol(self) -> str:
+        return "ID"
+    
+    def GetArrayCols(self) -> set[str]:
+        return {}
+
+
+
 class TestExcelData(DataScript):
     
     Id:int = 0
@@ -36,6 +90,47 @@ class TestExcelData(DataScript):
     
     def GetArrayCols(self) -> set[str]:
         return {"Name", "Number"}
+
+
+
+class EnvironmentVariableData(DataScript):
+    
+    Id:int = 0
+    MoistureContent_Per:list[int] = list()
+    SandFirstHorse:list[float] = list()
+    SandLeadingGroupHorse:list[float] = list()
+    SandReversalHorse:list[float] = list()
+    SandFreedomHorse:list[float] = list()
+    GrassFirstHorse:list[float] = list()
+    GrassLeadingGroupHorse:list[float] = list()
+    GrassReversalHorse:list[float] = list()
+    GrassFreedomHorse:list[float] = list()
+    DirtFirstHorse:list[float] = list()
+    DirtLeadingGroupHorse:list[float] = list()
+    DirtFreedomHorse:list[float] = list()
+    
+    def __init__(self, Id, MoistureContent_Per, SandFirstHorse, SandLeadingGroupHorse, SandReversalHorse, SandFreedomHorse, GrassFirstHorse, GrassLeadingGroupHorse, GrassReversalHorse, GrassFreedomHorse, DirtFirstHorse, DirtLeadingGroupHorse, DirtFreedomHorse) -> None:
+        super().__init__()
+        
+        self.Id = Id
+        self.MoistureContent_Per = MoistureContent_Per
+        self.SandFirstHorse = SandFirstHorse
+        self.SandLeadingGroupHorse = SandLeadingGroupHorse
+        self.SandReversalHorse = SandReversalHorse
+        self.SandFreedomHorse = SandFreedomHorse
+        self.GrassFirstHorse = GrassFirstHorse
+        self.GrassLeadingGroupHorse = GrassLeadingGroupHorse
+        self.GrassReversalHorse = GrassReversalHorse
+        self.GrassFreedomHorse = GrassFreedomHorse
+        self.DirtFirstHorse = DirtFirstHorse
+        self.DirtLeadingGroupHorse = DirtLeadingGroupHorse
+        self.DirtFreedomHorse = DirtFreedomHorse
+                        
+    def GetKeyCol(self) -> str:
+        return "Id"
+    
+    def GetArrayCols(self) -> set[str]:
+        return {"MoistureContent_Per", "SandFirstHorse", "SandLeadingGroupHorse", "SandReversalHorse", "SandFreedomHorse", "GrassFirstHorse", "GrassLeadingGroupHorse", "GrassReversalHorse", "GrassFreedomHorse", "DirtFirstHorse", "DirtLeadingGroupHorse", "DirtFreedomHorse"}
 
 
 
@@ -62,17 +157,221 @@ class TestSecondData(DataScript):
 
 
 
+class UserGradeData(DataScript):
+    
+    Id:int = 0
+    GradeList:int = 0
+    GradePoint:int = 0
+    
+    def __init__(self, Id, GradeList, GradePoint) -> None:
+        super().__init__()
+        
+        self.Id = Id
+        self.GradeList = GradeList
+        self.GradePoint = GradePoint
+                        
+    def GetKeyCol(self) -> str:
+        return "Id"
+    
+    def GetArrayCols(self) -> set[str]:
+        return {}
+
+
+
+class JockeyData(DataScript):
+    
+    ID:int = 0
+    Jockey_RunType:int = 0
+    JockeyWeight:int = 0
+    RetirementNum:int = 0
+    
+    def __init__(self, ID, Jockey_RunType, JockeyWeight, RetirementNum) -> None:
+        super().__init__()
+        
+        self.ID = ID
+        self.Jockey_RunType = Jockey_RunType
+        self.JockeyWeight = JockeyWeight
+        self.RetirementNum = RetirementNum
+                        
+    def GetKeyCol(self) -> str:
+        return "ID"
+    
+    def GetArrayCols(self) -> set[str]:
+        return {}
+
+
+
+class LineageData(DataScript):
+    
+    Id:int = 0
+    HorseStamina_Min:int = 0
+    HorseStamina_Max:int = 0
+    HorseWeight_Min:float = 0.0
+    HorseWeight_Max:float = 0.0
+    HorseHeight_Min:float = 0.0
+    HorseHeight_Max:float = 0.0
+    HorseSpeed_Min:float = 0.0
+    HorseSpeed_Max:float = 0.0
+    HorseMaxSpeed_Min:float = 0.0
+    HorseMaxSpeed_Max:float = 0.0
+    HorseAcceleration_Min:float = 0.0
+    HorseAcceleration_Max:float = 0.0
+    HorseAge_Min:int = 0
+    HorseAge_Max:int = 0
+    HorseAdaptation_Min:float = 0.0
+    HorseAdaptation_Max:float = 0.0
+    HorseRecovery_Min:float = 0.0
+    HorseRecovery_Max:float = 0.0
+    
+    def __init__(self, Id, HorseStamina_Min, HorseStamina_Max, HorseWeight_Min, HorseWeight_Max, HorseHeight_Min, HorseHeight_Max, HorseSpeed_Min, HorseSpeed_Max, HorseMaxSpeed_Min, HorseMaxSpeed_Max, HorseAcceleration_Min, HorseAcceleration_Max, HorseAge_Min, HorseAge_Max, HorseAdaptation_Min, HorseAdaptation_Max, HorseRecovery_Min, HorseRecovery_Max) -> None:
+        super().__init__()
+        
+        self.Id = Id
+        self.HorseStamina_Min = HorseStamina_Min
+        self.HorseStamina_Max = HorseStamina_Max
+        self.HorseWeight_Min = HorseWeight_Min
+        self.HorseWeight_Max = HorseWeight_Max
+        self.HorseHeight_Min = HorseHeight_Min
+        self.HorseHeight_Max = HorseHeight_Max
+        self.HorseSpeed_Min = HorseSpeed_Min
+        self.HorseSpeed_Max = HorseSpeed_Max
+        self.HorseMaxSpeed_Min = HorseMaxSpeed_Min
+        self.HorseMaxSpeed_Max = HorseMaxSpeed_Max
+        self.HorseAcceleration_Min = HorseAcceleration_Min
+        self.HorseAcceleration_Max = HorseAcceleration_Max
+        self.HorseAge_Min = HorseAge_Min
+        self.HorseAge_Max = HorseAge_Max
+        self.HorseAdaptation_Min = HorseAdaptation_Min
+        self.HorseAdaptation_Max = HorseAdaptation_Max
+        self.HorseRecovery_Min = HorseRecovery_Min
+        self.HorseRecovery_Max = HorseRecovery_Max
+                        
+    def GetKeyCol(self) -> str:
+        return "Id"
+    
+    def GetArrayCols(self) -> set[str]:
+        return {}
+
+
+
 def GetDataList() -> list[DataScript]:
     return [
+        StaticData(900001, 5, 10, 100, 100, 5, 30, 2, 3, 1),
+        BiorhythmData(110101, 0.1),
+        BiorhythmData(110102, 0.1),
+        BiorhythmData(110103, 0.02),
+        BiorhythmData(110204, 0.1),
+        BiorhythmData(110205, 0.5),
+        BiorhythmData(110306, 0.1),
+        BiorhythmData(110307, 0.4),
+        BiorhythmData(110108, 0.1),
         TestExcelData(1, ["Hi"], [15]),
         TestExcelData(2, ["My"], [1]),
         TestExcelData(3, ["lol"], [10]),
         TestExcelData(3, ["lol2"], [250]),
         TestExcelData(3, ["wow"], [13]),
+        EnvironmentVariableData(120001, [5], [0.46282509], [0.46282509], [0.46282509], [0.92565018], [0.46282509], [0.46282509], [0.46282509], [1.3884752699999998], [0.46282509], [0.46282509], [0.46282509]),
+        EnvironmentVariableData(120001, [9], [1.43424918], [1.1952076500000002], [0.95616612], [1.43424918], [0.95616612], [0.95616612], [0.95616612], [1.91233224], [0.95616612], [0.95616612], [0.95616612]),
+        EnvironmentVariableData(120001, [14], [2.46670515], [1.97336412], [1.48002309], [1.97336412], [1.48002309], [1.48002309], [1.48002309], [2.46670515], [1.48002309], [1.48002309], [1.48002309]),
+        EnvironmentVariableData(120001, [19], [3.5601930000000004], [2.7972945], [2.034396], [2.5429950000000003], [2.034396], [2.034396], [2.034396], [3.0515940000000006], [2.034396], [2.034396], [2.034396]),
+        EnvironmentVariableData(120001, [100], [4.714712730000001], [3.666998790000001], [2.6192848500000006], [3.1431418200000008], [2.6192848500000006], [2.6192848500000006], [2.6192848500000006], [3.666998790000001], [2.6192848500000006], [2.6192848500000006], [2.6192848500000006]),
+        EnvironmentVariableData(120002, [5], [0.022689940000000002], [0.022689940000000002], [0.022689940000000002], [0.045379880000000004], [0.022689940000000002], [0.022689940000000002], [0.022689940000000002], [0.06806982], [0.022689940000000002], [0.022689940000000002], [0.022689940000000002]),
+        EnvironmentVariableData(120002, [9], [0.07031388000000001], [0.058594900000000005], [0.04687592000000001], [0.07031388000000001], [0.04687592000000001], [0.04687592000000001], [0.04687592000000001], [0.09375184000000002], [0.04687592000000001], [0.04687592000000001], [0.04687592000000001]),
+        EnvironmentVariableData(120002, [14], [0.12092990000000002], [0.09674392000000001], [0.07255794], [0.09674392000000001], [0.07255794], [0.07255794], [0.07255794], [0.12092990000000002], [0.07255794], [0.07255794], [0.07255794]),
+        EnvironmentVariableData(120002, [19], [0.17453800000000003], [0.137137], [0.09973600000000002], [0.12467000000000002], [0.09973600000000002], [0.09973600000000002], [0.09973600000000002], [0.14960400000000004], [0.09973600000000002], [0.09973600000000002], [0.09973600000000002]),
+        EnvironmentVariableData(120002, [100], [0.23113818000000005], [0.17977414000000003], [0.12841010000000003], [0.15409212000000003], [0.12841010000000003], [0.12841010000000003], [0.12841010000000003], [0.17977414000000003], [0.12841010000000003], [0.12841010000000003], [0.12841010000000003]),
+        EnvironmentVariableData(120003, [5], [0.35708400000000007], [0.27773200000000003], [0.19838000000000003], [0.23805600000000005], [0.19838000000000003], [0.19838000000000003], [0.19838000000000003], [0.27773200000000003], [0.19838000000000003], [0.19838000000000003], [0.19838000000000003]),
+        EnvironmentVariableData(120003, [9], [0.27008800000000005], [0.21221200000000004], [0.15433600000000003], [0.19292000000000004], [0.15433600000000003], [0.15433600000000003], [0.15433600000000003], [0.23150400000000004], [0.15433600000000003], [0.15433600000000003], [0.15433600000000003]),
+        EnvironmentVariableData(120003, [14], [0.18746000000000002], [0.14996800000000002], [0.11247599999999999], [0.14996800000000002], [0.11247599999999999], [0.11247599999999999], [0.11247599999999999], [0.18746000000000002], [0.11247599999999999], [0.11247599999999999], [0.11247599999999999]),
+        EnvironmentVariableData(120003, [19], [0.1092], [0.09100000000000001], [0.0728], [0.1092], [0.0728], [0.0728], [0.0728], [0.1456], [0.0728], [0.0728], [0.0728]),
+        EnvironmentVariableData(120003, [100], [0.035308], [0.035308], [0.035308], [0.070616], [0.070616], [0.035308], [0.035308], [0.105924], [0.035308], [0.035308], [0.035308]),
+        EnvironmentVariableData(120004, [5], [7.364850804675003], [5.7282172925250014], [4.091583780375001], [4.909900536450001], [4.091583780375001], [4.091583780375001], [4.091583780375001], [5.7282172925250014], [1.5014986350000004], [4.091583780375001], [4.091583780375001]),
+        EnvironmentVariableData(120004, [9], [5.570559935850002], [4.376868521025001], [3.183177106200001], [3.978971382750001], [3.183177106200001], [3.183177106200001], [3.183177106200001], [4.774765659300002], [3.183177106200001], [3.183177106200001], [3.183177106200001]),
+        EnvironmentVariableData(120004, [14], [3.866358985125001], [3.0930871881000006], [2.3198153910750006], [3.0930871881000006], [2.3198153910750006], [2.3198153910750006], [2.3198153910750006], [3.866358985125001], [2.3198153910750006], [2.3198153910750006], [2.3198153910750006]),
+        EnvironmentVariableData(120004, [19], [2.2522479525000003], [1.8768732937500006], [1.5014986350000004], [2.2522479525000003], [1.5014986350000004], [1.5014986350000004], [1.5014986350000004], [3.0029972700000007], [1.5014986350000004], [1.5014986350000004], [1.5014986350000004]),
+        EnvironmentVariableData(120004, [100], [0.035308], [0.035308], [0.035308], [0.070616], [0.7282268379750002], [0.7282268379750002], [0.7282268379750002], [2.1846805139250005], [0.7282268379750002], [0.7282268379750002], [0.7282268379750002]),
+        EnvironmentVariableData(120005, [5], [2.209455241402501], [1.7184651877575006], [1.2274751341125003], [1.4729701609350003], [1.2274751341125003], [1.2274751341125003], [1.2274751341125003], [1.7184651877575006], [0.4504495905000001], [1.2274751341125003], [1.2274751341125003]),
+        EnvironmentVariableData(120005, [9], [1.6711679807550004], [1.3130605563075002], [1.1936914148250002], [1.1936914148250002], [0.9549531318600002], [0.9549531318600002], [0.9549531318600002], [1.4324296977900004], [0.9549531318600002], [0.9549531318600002], [0.9549531318600002]),
+        EnvironmentVariableData(120005, [14], [1.1599076955375003], [0.9279261564300002], [0.6959446173225001], [0.9279261564300002], [0.6959446173225001], [0.6959446173225001], [0.6959446173225001], [1.1599076955375003], [0.6959446173225001], [0.6959446173225001], [0.6959446173225001]),
+        EnvironmentVariableData(120005, [19], [0.6756743857500002], [0.5630619881250002], [0.4504495905000001], [0.6756743857500002], [0.4504495905000001], [0.4504495905000001], [0.4504495905000001], [0.9008991810000002], [0.4504495905000001], [0.4504495905000001], [0.4504495905000001]),
+        EnvironmentVariableData(120005, [100], [0.21846805139250003], [0.21846805139250003], [0.21846805139250003], [0.43693610278500006], [0.21846805139250003], [0.21846805139250003], [0.21846805139250003], [0.6554041541775], [0.21846805139250003], [0.21846805139250003], [0.21846805139250003]),
         TestSecondData(1, ["Hi"], True, [15]),
         TestSecondData(2, ["My"], True, [1]),
         TestSecondData(3, ["lol"], True, [10]),
         TestSecondData(3, ["lol2"], True, [250]),
-        TestSecondData(3, ["wow"], True, [13])
+        TestSecondData(3, ["wow"], True, [13]),
+        UserGradeData(910001, 1, 10),
+        UserGradeData(910001, 2, 20),
+        UserGradeData(910001, 3, 30),
+        UserGradeData(910001, 4, 40),
+        UserGradeData(910001, 5, 50),
+        UserGradeData(910001, 6, 60),
+        UserGradeData(910001, 7, 70),
+        UserGradeData(910001, 8, 100),
+        JockeyData(130001, 1, 50, 6100),
+        JockeyData(130002, 2, 51, 6900),
+        JockeyData(130003, 3, 52, 5100),
+        JockeyData(130004, 4, 53, 5600),
+        JockeyData(130005, 5, 54, 6100),
+        JockeyData(130006, 6, 55, 7100),
+        JockeyData(130007, 7, 56, 3300),
+        JockeyData(130008, 1, 57, 4400),
+        JockeyData(130009, 2, 58, 6600),
+        JockeyData(130010, 3, 59, 4200),
+        JockeyData(130011, 4, 60, 8300),
+        JockeyData(130012, 5, 50, 4700),
+        JockeyData(130013, 6, 51, 3600),
+        JockeyData(130014, 7, 52, 7200),
+        JockeyData(130015, 1, 53, 4800),
+        JockeyData(130016, 2, 54, 6300),
+        JockeyData(130017, 3, 55, 6600),
+        JockeyData(130018, 4, 56, 4900),
+        JockeyData(130019, 5, 57, 6600),
+        JockeyData(130020, 6, 58, 7500),
+        JockeyData(130021, 7, 59, 5000),
+        JockeyData(130022, 1, 60, 5700),
+        JockeyData(130023, 2, 50, 6700),
+        JockeyData(130024, 3, 51, 5100),
+        JockeyData(130025, 4, 52, 6900),
+        JockeyData(130026, 5, 53, 5300),
+        JockeyData(130027, 6, 54, 6100),
+        JockeyData(130028, 7, 55, 3000),
+        JockeyData(130029, 1, 56, 4200),
+        JockeyData(130030, 2, 57, 8200),
+        JockeyData(130031, 3, 58, 3800),
+        JockeyData(130032, 4, 59, 6000),
+        JockeyData(130033, 5, 60, 5500),
+        JockeyData(130034, 6, 50, 5000),
+        JockeyData(130035, 7, 51, 4500),
+        JockeyData(130036, 1, 52, 4000),
+        JockeyData(130037, 2, 53, 7500),
+        JockeyData(130038, 3, 54, 5000),
+        JockeyData(130039, 4, 55, 5700),
+        JockeyData(130040, 5, 56, 6700),
+        JockeyData(130041, 6, 57, 5100),
+        JockeyData(130042, 7, 58, 6900),
+        JockeyData(130043, 1, 59, 5300),
+        JockeyData(130044, 2, 60, 6100),
+        JockeyData(130045, 3, 50, 3000),
+        JockeyData(130046, 4, 51, 4200),
+        JockeyData(130047, 5, 52, 7200),
+        JockeyData(130048, 6, 53, 4800),
+        JockeyData(130049, 7, 54, 6300),
+        JockeyData(130050, 1, 55, 6600),
+        JockeyData(130051, 2, 56, 4900),
+        JockeyData(130052, 3, 57, 6600),
+        JockeyData(130053, 4, 58, 7500),
+        JockeyData(130054, 5, 59, 5000),
+        JockeyData(130055, 6, 60, 5700),
+        JockeyData(130056, 7, 51, 6700),
+        JockeyData(130057, 1, 52, 5100),
+        JockeyData(130058, 2, 53, 6900),
+        LineageData(100001, 15840, 17280, 480, 552, 160, 168, 54, 57, 1.5, 2.25, 2.3545, 2.56225, 3, 4, 0.9, 0.95, 7, 8.5),
+        LineageData(100002, 11520, 12960, 408, 480, 152, 160, 63, 66, 3.75, 4.5, 2.97775, 3.1855, 6, 7, 1.05, 1.1, 11.5, 13),
+        LineageData(100003, 14400, 15840, 480, 552, 160, 168, 57, 60, 2.25, 3, 2.56225, 2.77, 4, 5, 0.95, 1, 8.5, 10),
+        LineageData(100004, 12960, 14400, 336, 408, 144, 152, 57, 60, 2.25, 3, 2.56225, 2.77, 4, 5, 0.95, 1, 8.5, 10),
+        LineageData(100005, 12960, 14400, 480, 552, 160, 168, 60, 63, 3, 3.75, 2.77, 2.97775, 5, 6, 1, 1.05, 10, 11.5),
+        LineageData(100006, 14400, 15840, 408, 480, 152, 160, 57, 60, 2.25, 3, 2.56225, 2.77, 4, 5, 0.95, 1, 8.5, 10),
+        LineageData(100007, 12960, 14400, 336, 408, 144, 152, 54, 57, 1.5, 2.25, 2.3545, 2.56225, 3, 4, 0.9, 0.95, 7, 8.5)
         ]
             

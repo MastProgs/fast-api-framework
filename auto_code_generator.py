@@ -81,7 +81,6 @@ class DataScript(StructModel):
             df_raw = df_raw.loc[:, ~df_raw.columns.str.contains('^client', case=False)]
             df_raw = df_raw.loc[:, ~df_raw.columns.str.contains('^design', case=False)]
             df_option = df_raw.iloc[:DATA_START_ROW]
-            print(df_option)
             
             isNotKeyList = IsNaN(df_option.iloc[0].values)
             if 0 < len([b for b in isNotKeyList if b == False]):        
@@ -92,7 +91,10 @@ class DataScript(StructModel):
                     keyIdx += 1
                     
                 typeList:list[str] = df_option.iloc[1].values
+                typeList = [i.replace(" ", "") for i in typeList]
+                
                 memberNameList:list[str] = df_option.iloc[DATA_START_ROW - 1].values
+                memberNameList = [i.replace(" ", "") for i in memberNameList]
                 
                 defineMemberCodeList:list[str] = list()
                 for mType, mName in zip(typeList, memberNameList):

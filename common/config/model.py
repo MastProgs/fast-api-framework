@@ -10,6 +10,7 @@ class ServerConfig(ConfigModel):
     server_name: str = ""
     port: int = 0
     code_generate_before_run: bool = False
+    is_chat: bool = False
     
 class LogConfig(ConfigModel):
     print_console: bool = True

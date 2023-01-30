@@ -78,7 +78,7 @@ class ScriptLibrary(Handler):
     def ImportData(self) -> bool:
         
         res = [data for data in GetDataList() if False == self.ImportDataScript(data)]
-        if len(res) > 0:
+        if len(res) < 1:
             LOG.e(f"Import DataScript FAILED.")
             return False
         
