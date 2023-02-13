@@ -1,7 +1,7 @@
 from asyncio import current_task
 
 from redis import Redis
-from common.database.model.contents import CONTENTS_BASE
+from common.database.model.mysql import CONTENTS_BASE
 
 from common.config.config import CONFIG
 from common.config.model import ContentsDBConfig, MongoDBConfig, RedisConfig
@@ -16,7 +16,8 @@ from pymongo import MongoClient
 from redis_om import get_redis_connection
 
 __DB_URL_MAP = {
-    "mysql":"mysql+asyncmy"
+    "mysql":"mysql+aiomysql"
+    #"mysql":"mysql+asyncmy"
     , "mongodb":"mongodb"
 }
 
@@ -31,7 +32,7 @@ __cdbInfo:ContentsDBConfig = CONFIG.GetConfig(ContentsDBConfig)
 __CDB_URL = f'{__DB_URL_MAP[__cdbInfo.db_type]}://{__cdbInfo.id}:{__cdbInfo.pw}@{__cdbInfo.host}:{__cdbInfo.port}/{__cdbInfo.name}'
 if __cdbInfo.pw == '':
     __CDB_URL = f'{__DB_URL_MAP[__cdbInfo.db_type]}://{__cdbInfo.id}@{__cdbInfo.host}:{__cdbInfo.port}/{__cdbInfo.name}'
-__CDB_ENGINE = create_async_engine(__CDB_URL, echo=__cdbInfo.show_log)
+__CDB_ENGINE = create_async_engine(__CDB_URL, echo=__cdbInfo.show_log, pool_size=10, max_overflow=50)
 __CDB_ASYNC_SESSION = async_scoped_session(sessionmaker(__CDB_ENGINE, class_=AsyncSession, expire_on_commit=False, autocommit=False), scopefunc=current_task)
 
 
