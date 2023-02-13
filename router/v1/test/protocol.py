@@ -1,4 +1,4 @@
-from common.gmodel import WebPacketProtocol
+from common.gmodel import Res_WebPacketProtocol, WebPacketProtocol
 
 class PingProtocol(WebPacketProtocol):
     pass
@@ -8,11 +8,11 @@ class Req_TestJson(PingProtocol):
     desc: str | None = None
     num: int
     
-class Res_TestJson(PingProtocol):
+class Res_TestJson(PingProtocol, Res_WebPacketProtocol):
     msg: str
     num: int
 
-class Res_tbl_test(PingProtocol):
+class Res_tbl_test(PingProtocol, Res_WebPacketProtocol):
     
     Uid:int
     Nickname:str

@@ -18,7 +18,7 @@ router = APIRouter(prefix="/v1/auth"
                    , responses = { 404: {"description": "Not found"}})
 
 from .protocol import Req_Login, Req_RefreshToken, Res_Login, Res_RefreshToken
-from common.database.model.contents import tbl_account
+from common.database.model.mysql import tbl_account
 @router.post(path="/login"
             , dependencies=[Depends(IsWebServer)]
             , response_model=Res_Login

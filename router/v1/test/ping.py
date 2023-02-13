@@ -50,7 +50,7 @@ from sqlalchemy.future import select
 from sqlalchemy import delete, or_
 from sqlalchemy.ext.asyncio import AsyncSession
 from common.database.db import GetCDB, GetMDB, GetRedis
-from common.database.model.contents import tbl_test
+from common.database.model.mysql import tbl_test
 
 @router.get(path="/dbselect"
             , response_model=Res_tbl_test
@@ -58,8 +58,9 @@ from common.database.model.contents import tbl_test
             , description="When need to test DB SELECT api, then use this.")
 async def DB_Select(db:AsyncSession = Depends(GetCDB)):
         
-    query = select(tbl_test).where(tbl_test.Nickname == 'abc', tbl_test.IsTest == True).order_by(tbl_test.Uid.desc()).limit(2)
-    query = select(tbl_test).where(or_(tbl_test.Uid == 10, tbl_test.Uid == 11, tbl_test.Uid == 12)).order_by(tbl_test.Uid.desc()).limit(2)
+    query = select(tbl_test).where(tbl_test.nickname == 'abc', tbl_test.is_test == True).order_by(tbl_test.uid.desc()).limit(2)
+    #query = select(tbl_test).where(or_(tbl_test.uid == 10, tbl_test.uid == 11, tbl_test.uid == 12)).order_by(tbl_test.uid.desc()).limit(2)
+    #query = select(tbl_test).where(tbl_test.uid == [10, 11, 12]).order_by(tbl_test.uid.desc()).limit(2)
     res = await db.execute(query)
     rowList = res.scalars().fetchall()
     for row in rowList:
@@ -75,10 +76,11 @@ async def DB_Select(db:AsyncSession = Depends(GetCDB)):
 async def DB_Insert(db:AsyncSession = Depends(GetCDB)):
     
     db.add_all([
-        tbl_test(Uid=10, Nickname='abc', Age=20, IsTest=True)
-        , tbl_test(Uid=11, Nickname='abc', Age=20, IsTest=True)
-        , tbl_test(Uid=12, Nickname='abc', Age=20, IsTest=True)
+        tbl_test(uid=10, nickname='abc', age=20, is_test=True)
+        , tbl_test(uid=11, nickname='abc', age=20, is_test=True)
+        , tbl_test(uid=12, nickname='abc', age=20, is_test=True)
     ])
+    
     try:
         await db.commit()
     except:
@@ -104,18 +106,32 @@ async def DB_Delete(db:AsyncSession = Depends(GetCDB)):
         raise RuntimeError(msg)
     
     
-
+# mongo db example
+# https://www.w3schools.com/python/python_mongodb_insert.asp 
 from common.database.model.log import log_test
 @router.get(path="/ldbinsert"
             , summary="Test for Mongo DB INSERT api"
             , description="When need to test Mongo DB INSERT api, then use this.")
 async def DB_LogInsert(LOG_DB = Depends(GetMDB)):
     
-    l = log_test(3, "log_test", 11, True)
+    l = log_test(Uid=3, Nickname="log_test", Age=11, IsTest=True)
     LOG.d(l.__dict__)
     LOG_DB.log_test.insert_one(l.__dict__)
     
+@router.get(path="/ldbselect"
+            , summary="Test for Mongo DB SELECT api"
+            , description="When need to test Mongo DB INSERT api, then use this.")
+async def DB_LogSelect(LOG_DB = Depends(GetMDB)):
     
+    
+    res = LOG_DB.log_test.find().sort('CreateAt', -1).limit(2)
+    for row in res:
+        log = log_test(**row)
+        LOG.d(row)
+        LOG.d(log.__dict__)
+    
+    return res
+
 
 from redis import Redis
 @router.post(path="/redis-get-sentinel"

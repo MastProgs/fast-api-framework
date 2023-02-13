@@ -13,11 +13,15 @@ pip install fastapi
 pip install "uvicorn[standard]"
 pip install PyMySQL
 pip install sqlalchemy
+pip install sqlalchemy[asyncio]
 pip install asyncmy
 pip install pandas
 pip install openpyxl
+pip install mysqlclient
+pip install databases[mysql]
 pip install databases[aiomysql]
 pip install pymongo
+pip install redis
 pip install redis_om
 pip install "python-jose[cryptography]" "passlib[bcrypt]" python-multipart
 ```
