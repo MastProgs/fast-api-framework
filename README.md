@@ -31,3 +31,7 @@ pip install "python-jose[cryptography]" "passlib[bcrypt]" python-multipart
 
 ## 유용한 기능
 + Ctrl + , => 검색창에서 file:exclude 항목에 불필요한 파일들 필터링 가능 ( ex: **/__pycache__ 추가 시, 파이썬 캐싱 파일이 탐색기에서 삭제됨 )
+
+## Socket 서버
++ fast-api 를 활용한 다중 접속 socket 서버
++ 정상통신 되는 부분 확인 & process packet 에 정의된 함수를, 사전 start up 시점에 각 프로토콜에 맞는 함수들을 등록해주고 활용해줌
