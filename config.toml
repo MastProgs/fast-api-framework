@@ -4,6 +4,11 @@ server_name = "FastAPIServer"
 port = 9000
 code_generate_before_run = false
 is_chat = false
+is_test = true
+
+[BetServerConfig]
+server_name = "BetServer"
+port = 0
 
 [LogConfig]
 print_console = true
@@ -43,3 +48,4 @@ access_key = "access_key"
 refresh_key = "refresh_key"
 access_expire_min = 30
 refresh_expire_day = 7
+bet_key = "other_access_key"
