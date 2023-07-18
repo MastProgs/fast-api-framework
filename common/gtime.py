@@ -1,3 +1,4 @@
+import inspect
 import time
 from datetime import datetime
 
@@ -33,11 +34,23 @@ class StopWatch(Handler):
         
 
 
-def HowLong(func):
-    def Wrapper(*args, **kwargs):
-        sw = StopWatch()
+def SyncHowLong(func):
+    def wrapper(*args, **kwargs):
+        start = time.time()
         ret = func(*args, **kwargs)
-        print(f'DELAY - {func.__module__}.{func.__name__}: {sw.Duration()} sec')
+        end = time.time()
+        print(f'DELAY - {func.__module__}.{func.__name__}: {end - start} sec')
         return ret
-    
-    return Wrapper
+    return wrapper
+
+def AsyncHowLong(func):
+    async def wrapper(*args, **kwargs):
+        start = time.time()
+        ret = await func(*args, **kwargs)
+        end = time.time()
+        print(f'DELAY - {func.__module__}.{func.__name__}: {end - start} sec')
+        return ret
+    return wrapper
+
+def HowLong(func):
+    return AsyncHowLong(func) if inspect.iscoroutinefunction(func) else SyncHowLong(func)
